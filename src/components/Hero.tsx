@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { FilmGrain, Shader, Smoke } from 'shaders/react'
+import { Aurora, ContourLines, FilmGrain, Shader, Vignette } from 'shaders/react'
 import Marquee from './Marquee'
 import FadeIn from './FadeIn'
 
@@ -39,22 +39,32 @@ export default function Hero({ intro }: { intro: boolean }) {
       {/* atmosphere: animated shader backdrop, warm darkroom tones */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <Shader style={{ width: '100%', height: '100%' }}>
-          {/* one faint wisp of warm smoke in the dark — barely there, stirred by the cursor */}
-          <Smoke
-            colorA="#4a3a24"
-            colorB="#16130f"
-            emitFrom={{ x: 0.5, y: 1 }}
-            direction={0}
-            speed={8}
-            spread={55}
-            emitRadius={0.25}
-            intensity={0.4}
-            dissipation={0.3}
-            detail={18}
-            gravity={0.3}
-            mouseInfluence={0.2}
-            mouseRadius={0.14}
+          {/* slow curtains of light drifting warm → cool: the kelvin scale itself */}
+          <Aurora
+            colorA="#c9803a"
+            colorB="#6b6353"
+            colorC="#2e3440"
+            intensity={55}
+            curtainCount={2}
+            speed={1}
+            waviness={22}
+            rayDensity={5}
+            height={95}
+            center={{ x: 0.5, y: 0 }}
           />
+          {/* topographic lines tracing the light; sub-unity opacity lets the
+              aurora glow breathe through faintly underneath */}
+          <ContourLines
+            levels={7}
+            lineWidth={1.4}
+            softness={0.85}
+            gamma={0.6}
+            lineColor="rgba(142,135,121,0.16)"
+            backgroundColor="transparent"
+            colorMode="source"
+            opacity={0.85}
+          />
+          <Vignette color="#0e0d0b" radius={0.72} falloff={0.6} intensity={0.65} />
           <FilmGrain strength={0.05} />
         </Shader>
         {/* light meter center mark */}
