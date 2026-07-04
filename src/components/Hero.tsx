@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { FilmGrain, Godrays, Shader, Smoke, Vignette } from 'shaders/react'
+import { FilmGrain, Shader, Smoke } from 'shaders/react'
 import Marquee from './Marquee'
 import FadeIn from './FadeIn'
 
@@ -39,34 +39,23 @@ export default function Hero({ intro }: { intro: boolean }) {
       {/* atmosphere: animated shader backdrop, warm darkroom tones */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <Shader style={{ width: '100%', height: '100%' }}>
-          {/* amber smoke curling up from the bottom of the darkroom — stirred by the cursor */}
+          {/* one faint wisp of warm smoke in the dark — barely there, stirred by the cursor */}
           <Smoke
-            colorA="#c98a45"
-            colorB="#2e2115"
+            colorA="#4a3a24"
+            colorB="#16130f"
             emitFrom={{ x: 0.5, y: 1 }}
             direction={0}
-            speed={16}
-            spread={70}
-            emitRadius={0.2}
-            intensity={0.85}
-            dissipation={0.22}
-            detail={28}
-            gravity={0.35}
-            mouseInfluence={0.35}
-            mouseRadius={0.16}
+            speed={8}
+            spread={55}
+            emitRadius={0.25}
+            intensity={0.4}
+            dissipation={0.3}
+            detail={18}
+            gravity={0.3}
+            mouseInfluence={0.2}
+            mouseRadius={0.14}
           />
-          {/* one hard light source raking down from the top corner */}
-          <Godrays
-            center={{ x: 0.15, y: 0 }}
-            density={0.35}
-            intensity={0.45}
-            spotty={1.2}
-            speed={0.35}
-            rayColor="#d8a253"
-            backgroundColor="transparent"
-          />
-          <Vignette color="#0e0d0b" radius={0.62} falloff={0.55} intensity={0.9} />
-          <FilmGrain strength={0.06} />
+          <FilmGrain strength={0.05} />
         </Shader>
         {/* light meter center mark */}
         <div className="absolute left-1/2 top-0 hidden h-full w-px bg-hairline sm:block" />
