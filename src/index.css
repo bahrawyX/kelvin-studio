@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0e0d0b;
+  --ink-2: #171512;
+  --bone: #e9e3d7;
+  --bone-dim: #8e8779;
+  --hairline: #2a2721;
+  --kelvin: #3d52f5;
+  --kelvin-glow: rgba(61, 82, 245, 0.14);
+
+  /* --ease-out-expo — all reveals */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* --ease-inout-soft — preloader curtain, accordion */
+  --ease-inout-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline) transparent;
+}
+
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 100%;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--kelvin);
+  color: var(--ink);
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hairline);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--kelvin);
+  outline-offset: 2px;
+}
+
+/* ---- Type voices ---- */
+.type-display {
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 125%;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.type-condensed {
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 68%;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.type-serif {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.type-mono {
+  font-family: 'Fragment Mono', monospace;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---- Film grain: steps() so it flickers like film, not slides ---- */
+@keyframes grain-flicker {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 256px 256px;
+  }
+}
+
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  animation: grain-flicker 0.6s steps(8) infinite;
+}
+
+/* ---- Availability pulse dot (accent use #4) ---- */
+@keyframes kelvin-pulse {
+  0%,
+  100% {
+    background-color: var(--kelvin);
+  }
+  50% {
+    background-color: transparent;
+  }
+}
+
+.kelvin-pulse {
+  animation: kelvin-pulse 2s ease-in-out infinite;
+}
+
+/* ---- Hero scroll cue line ---- */
+@keyframes cue-line {
+  0%,
+  100% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.cue-line {
+  transform-origin: top;
+  animation: cue-line 1.6s ease-in-out infinite;
+}
+
+/* ---- Footer wordmark: variable width axis is the easter egg ---- */
+.wordmark-stretch {
+  transition: font-stretch 0.6s var(--ease-out-expo);
+}
+.wordmark-stretch:hover {
+  font-stretch: 78%;
+}
+
+/* ---- Nav link hover: number → kelvin (accent use #3), word → bone ---- */
+.nav-link .nav-num,
+.nav-link .nav-word {
+  transition: color 0.3s var(--ease-out-expo);
+}
+.nav-link:hover .nav-num {
+  color: var(--kelvin);
+}
+.nav-link:hover .nav-word {
+  color: var(--bone);
+}
+
+/* ---- Footer social underline ---- */
+.underline-link {
+  position: relative;
+}
+.underline-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: var(--bone);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.underline-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---- Services preview skeleton shimmer ---- */
+@keyframes skeleton-slide {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(110deg, var(--ink-2) 40%, #24211b 50%, var(--ink-2) 60%);
+  background-size: 200% 100%;
+  animation: skeleton-slide 1.2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .kelvin-pulse,
+  .cue-line,
+  .skeleton {
+    animation: none;
+  }
+}
